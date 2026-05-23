@@ -15,8 +15,6 @@ function App() {
   const [restaurants, setRestaurants] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
-  const [cartItems, setCartItems] = useState([])
-  const [isCartOpen, setIsCartOpen] = useState(false)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -40,23 +38,11 @@ function App() {
     return () => controller.abort()
   }, [])
 
-  function addToCart(dish) {
-    setCartItems((items) => [...items, { ...dish, cartId: crypto.randomUUID() }])
-    setIsCartOpen(true)
-  }
-
-  function removeFromCart(cartId) {
-    setCartItems((items) => items.filter((item) => item.cartId !== cartId))
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <GlobalStyle />
-        <Header
-          cartQuantity={cartItems.length}
-          onCartClick={() => setIsCartOpen(true)}
-        />
+        <Header />
         <main>
           <Routes>
             <Route
@@ -76,18 +62,12 @@ function App() {
                   restaurants={restaurants}
                   isLoading={isLoading}
                   error={error}
-                  onAddToCart={addToCart}
                 />
               }
             />
           </Routes>
         </main>
-        <Cart
-          items={cartItems}
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          onRemove={removeFromCart}
-        />
+        <Cart />
         <Footer />
       </BrowserRouter>
     </ThemeProvider>

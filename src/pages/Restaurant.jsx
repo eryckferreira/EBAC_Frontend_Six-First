@@ -70,7 +70,7 @@ const BackLink = styled(Link)`
   font-weight: 900;
 `
 
-function Restaurant({ restaurants, isLoading, error, onAddToCart }) {
+function Restaurant({ restaurants, isLoading, error }) {
   const { id } = useParams()
   const [selectedDish, setSelectedDish] = useState(null)
 
@@ -125,7 +125,6 @@ function Restaurant({ restaurants, isLoading, error, onAddToCart }) {
       <ProductModal
         dish={selectedDish}
         onClose={() => setSelectedDish(null)}
-        onAddToCart={onAddToCart}
       />
     </>
   )

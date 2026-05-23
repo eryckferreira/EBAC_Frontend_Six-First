@@ -1,4 +1,7 @@
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
+
+import { addItem } from '../store/cartSlice'
 
 const Overlay = styled.div`
   position: fixed;
@@ -13,10 +16,12 @@ const Overlay = styled.div`
 const Modal = styled.article`
   position: relative;
   width: min(100%, ${({ theme }) => theme.layout.container});
+  max-height: calc(100vh - 48px);
   display: grid;
   grid-template-columns: minmax(280px, 1fr) 1.45fr;
   gap: 24px;
   padding: 32px;
+  overflow-y: auto;
   background: ${({ theme }) => theme.colors.brand};
   color: ${({ theme }) => theme.colors.cream};
 
@@ -76,19 +81,26 @@ const Button = styled.button`
   }
 `
 
-function ProductModal({ dish, onClose, onAddToCart }) {
+function ProductModal({ dish, onClose }) {
+  const dispatch = useDispatch()
+
   if (!dish) {
     return null
   }
 
   function handleAddToCart() {
-    onAddToCart(dish)
+    dispatch(addItem(dish))
     onClose()
   }
 
   return (
     <Overlay onClick={onClose}>
-      <Modal role="dialog" aria-modal="true" aria-labelledby="product-title" onClick={(event) => event.stopPropagation()}>
+      <Modal
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="product-title"
+        onClick={(event) => event.stopPropagation()}
+      >
         <CloseButton type="button" onClick={onClose} aria-label="Fechar">
           x
         </CloseButton>

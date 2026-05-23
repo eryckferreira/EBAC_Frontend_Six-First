@@ -1,4 +1,14 @@
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+
+import {
+  closeCart,
+  removeItem,
+  selectCartIsOpen,
+  selectCartItems,
+  selectCartTotal,
+} from '../store/cartSlice'
+import { formatPrice } from '../services/efoodApi'
 
 const Overlay = styled.div`
   position: fixed;
@@ -96,14 +106,41 @@ const Empty = styled.p`
   margin: 24px 0 0;
 `
 
-function Cart({ items, isOpen, onClose, onRemove }) {
+const Total = styled.p`
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 40px 0 16px;
+  font-size: 14px;
+  font-weight: 900;
+`
+
+const CheckoutButton = styled.button`
+  width: 100%;
+  border: 0;
+  padding: 8px;
+  background: ${({ theme }) => theme.colors.cream};
+  color: ${({ theme }) => theme.colors.brand};
+  font-weight: 900;
+`
+
+function Cart() {
+  const dispatch = useDispatch()
+  const items = useSelector(selectCartItems)
+  const isOpen = useSelector(selectCartIsOpen)
+  const total = useSelector(selectCartTotal)
+
+  function handleClose() {
+    dispatch(closeCart())
+  }
+
   return (
     <>
-      <Overlay $isOpen={isOpen} onClick={onClose} />
+      <Overlay $isOpen={isOpen} onClick={handleClose} />
       <Sidebar $isOpen={isOpen} aria-hidden={!isOpen}>
         <Header>
           <Title>Carrinho</Title>
-          <CloseButton type="button" onClick={onClose}>
+          <CloseButton type="button" onClick={handleClose}>
             Fechar
           </CloseButton>
         </Header>
@@ -111,23 +148,32 @@ function Cart({ items, isOpen, onClose, onRemove }) {
         {items.length === 0 ? (
           <Empty>Seu carrinho esta vazio.</Empty>
         ) : (
-          <List>
-            {items.map((item) => (
-              <Item key={item.cartId}>
-                <Image src={item.image} alt={item.name} />
-                <ItemInfo>
-                  <ItemName>{item.name}</ItemName>
-                  <ItemPrice>{item.price}</ItemPrice>
-                </ItemInfo>
-                <RemoveButton
-                  type="button"
-                  onClick={() => onRemove(item.cartId)}
-                >
-                  Remover
-                </RemoveButton>
-              </Item>
-            ))}
-          </List>
+          <>
+            <List>
+              {items.map((item) => (
+                <Item key={item.cartId}>
+                  <Image src={item.image} alt={item.name} />
+                  <ItemInfo>
+                    <ItemName>{item.name}</ItemName>
+                    <ItemPrice>{item.price}</ItemPrice>
+                  </ItemInfo>
+                  <RemoveButton
+                    type="button"
+                    onClick={() => dispatch(removeItem(item.cartId))}
+                  >
+                    Remover
+                  </RemoveButton>
+                </Item>
+              ))}
+            </List>
+            <Total>
+              <span>Valor total</span>
+              <span>{formatPrice(total)}</span>
+            </Total>
+            <CheckoutButton type="button">
+              Continuar com a entrega
+            </CheckoutButton>
+          </>
         )}
       </Sidebar>
     </>

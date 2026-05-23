@@ -1,5 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+
+import { openCart, selectCartQuantity } from '../store/cartSlice'
 
 const HeaderBar = styled.header`
   background:
@@ -65,8 +68,10 @@ const HeroTitle = styled.h1`
   }
 `
 
-function Header({ cartQuantity, onCartClick }) {
+function Header() {
   const { pathname } = useLocation()
+  const dispatch = useDispatch()
+  const cartQuantity = useSelector(selectCartQuantity)
   const isHome = pathname === '/'
 
   return (
@@ -76,7 +81,7 @@ function Header({ cartQuantity, onCartClick }) {
           {!isHome && <Link to="/">Restaurantes</Link>}
           <Logo to="/">efood</Logo>
           {!isHome && (
-            <CartButton type="button" onClick={onCartClick}>
+            <CartButton type="button" onClick={() => dispatch(openCart())}>
               {cartQuantity} produto(s) no carrinho
             </CartButton>
           )}
