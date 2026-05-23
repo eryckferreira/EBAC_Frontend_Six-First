@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 import RestaurantCard from '../components/RestaurantCard'
-import { restaurants } from '../data/restaurants'
 
 const Section = styled.section`
   padding-top: 80px;
@@ -22,7 +21,29 @@ const Grid = styled.div`
   }
 `
 
-function Home() {
+const Message = styled.p`
+  color: ${({ theme }) => theme.colors.brand};
+  font-size: 18px;
+  font-weight: 900;
+`
+
+function Home({ restaurants, isLoading, error }) {
+  if (isLoading) {
+    return (
+      <Section className="container">
+        <Message>Carregando restaurantes...</Message>
+      </Section>
+    )
+  }
+
+  if (error) {
+    return (
+      <Section className="container">
+        <Message>{error}</Message>
+      </Section>
+    )
+  }
+
   return (
     <Section>
       <Grid className="container">

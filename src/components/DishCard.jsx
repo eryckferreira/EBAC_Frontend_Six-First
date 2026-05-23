@@ -40,15 +40,15 @@ const Button = styled.button`
   font-weight: 900;
 `
 
-function DishCard({ dish, onAddToCart }) {
+function DishCard({ dish, onBuyClick }) {
   return (
     <Card>
       <Image src={dish.image} alt={dish.name} />
       <Title>{dish.name}</Title>
       <Description>{dish.description}</Description>
       <Price>{dish.price}</Price>
-      <Button type="button" onClick={() => onAddToCart(dish)}>
-        Adicionar ao carrinho
+      <Button type="button" onClick={onBuyClick}>
+        Comprar o produto
       </Button>
     </Card>
   )

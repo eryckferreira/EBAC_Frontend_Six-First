@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import DishCard from '../components/DishCard'
-import { restaurants } from '../data/restaurants'
+import ProductModal from '../components/ProductModal'
 
 const Hero = styled.section`
   position: relative;
@@ -69,8 +70,27 @@ const BackLink = styled(Link)`
   font-weight: 900;
 `
 
-function Restaurant({ onAddToCart }) {
+function Restaurant({ restaurants, isLoading, error, onAddToCart }) {
   const { id } = useParams()
+  const [selectedDish, setSelectedDish] = useState(null)
+
+  if (isLoading) {
+    return (
+      <Empty className="container">
+        <h1>Carregando restaurante...</h1>
+      </Empty>
+    )
+  }
+
+  if (error) {
+    return (
+      <Empty className="container">
+        <h1>{error}</h1>
+        <BackLink to="/">Voltar para restaurantes</BackLink>
+      </Empty>
+    )
+  }
+
   const restaurant = restaurants.find((item) => item.id === Number(id))
 
   if (!restaurant) {
@@ -94,9 +114,19 @@ function Restaurant({ onAddToCart }) {
 
       <Grid className="container">
         {restaurant.dishes.map((dish) => (
-          <DishCard key={dish.id} dish={dish} onAddToCart={onAddToCart} />
+          <DishCard
+            key={dish.id}
+            dish={dish}
+            onBuyClick={() => setSelectedDish(dish)}
+          />
         ))}
       </Grid>
+
+      <ProductModal
+        dish={selectedDish}
+        onClose={() => setSelectedDish(null)}
+        onAddToCart={onAddToCart}
+      />
     </>
   )
 }
