@@ -1,16 +1,54 @@
-# React + Vite
+# 🚀 Inicialização do Projeto
+Crie um novo projeto com Vite:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## bash
+npm create vite@latest nome-do-projeto  
+Escolha o template react ou react-swc.
 
-Currently, two official plugins are available:
+#### Instale as dependências:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## bash
+npm install  
 
-## React Compiler
+Execute o servidor de desenvolvimento:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## bash
+npm run dev  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🔌 Plugins Oficiais
+Atualmente, existem dois plugins oficiais para React no Vite:
+
+- @vitejs/plugin-react → utiliza Oxc.  
+- @vitejs/plugin-react-swc → utiliza SWC.  
+
+---
+
+## 🧠 React Compiler
+O React Compiler não vem habilitado neste template por questões de desempenho em desenvolvimento e build.  
+Para adicioná-lo, siga a documentação oficial.  
+
+---
+
+## 🪄 Configuração do ESLint
+Este template já inclui regras básicas de lint.  
+Para aplicações em produção, recomenda-se:
+
+- Usar TypeScript com regras de lint baseadas em tipos.  
+- Conferir o template React + TS.  
+- Integrar o typescript-eslint.  
+
+---
+
+## 📂 Estrutura Básica do Projeto
+nome-do-projeto/
+├── node_modules/
+├── public/
+├── src/
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── assets/
+├── index.html
+├── package.json
+└── vite.config.js
